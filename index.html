@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Editor PDF Básico</title>
+  <link rel="stylesheet" href="/styles/index.css" />
+  <!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body class="theme-purple">
+  <button id="theme-switcher" aria-label="Trocar tema">Mudar Tema</button>
+
+  <div class="container">
+    <h1>Editor PDF</h1>
+
+<section class="actions-section">
+  <a href="/front/merge.html" class="action-card" id="btn-merge" tabindex="0">
+    <i class="fas fa-file-circle-plus"></i>
+    <span>Juntar PDFs</span>
+  </a>
+
+  <a href="/front/split.html" class="action-card" id="btn-separate" tabindex="0">
+    <i class="fas fa-scissors"></i>
+    <span>Dividir PDF</span>
+  </a>
+
+  <a href="/front/rotate.html" class="action-card" id="btn-rotate-left" tabindex="0">
+    <i class="fas fa-rotate-left"></i>
+    <span>Girar arquivo</span>
+  </a>
+
+  <a href="/front/compress.html" class="action-card" id="btn-compress" tabindex="0">
+    <i class="fas fa-compress"></i>
+    <span>Compactar</span>
+  </a>
+
+  <a href="/front/convert.html" class="action-card" id="btn-ocr" tabindex="0">
+    <i class="fas fa-file-image"></i>
+    <span>Leitor OCR</span>
+  </a>
+</section>
+
+
+
+  </div>
+
+  <script src="/backend/index.js"></script>
+</body>
+
+</html>
