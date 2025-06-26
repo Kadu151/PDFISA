@@ -1,125 +1,332 @@
-/* Lista de arquivos */
-.file-list {
-  margin-top: 20px;
-  text-align: left;
-  max-height: 220px;
-  overflow-y: auto;
-  padding: 15px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+/* Container principal */
+.container {
+  background: rgba(255, 255, 255, 0.12);
+  max-width: 720px;
+  margin: 40px auto 20px;
+  padding: 40px 35px 50px;
+  border-radius: 20px;
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    inset 0 0 40px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  color: #eee;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: text;
 }
 
-/* Cada item da lista */
-.file-item {
-  margin-bottom: 10px;
-  padding: 10px 15px;
-  background-color: rgba(255, 255, 255, 0.15);
-  border-left: 4px solid #fff;
-  border-radius: 8px;
-  color: inherit;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: background 0.3s;
-}
-.file-item:hover {
-  background-color: rgba(255, 255, 255, 0.25);
+/* Título */
+.container h1 {
+  font-size: 2.4rem;
+  margin-bottom: 35px;
+  color: #f0f0f0;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
 }
 
-/* Botão principal: Juntar PDFs */
-.btn-action {
-  margin-top: 25px;
-  padding: 14px 28px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  background-color: rgba(255, 255, 255, 0.2);
-  border: none;
-  border-radius: 12px;
+/* Grupo de botões - coluna centralizada */
+.buttons-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 30px;
+}
+
+/* Botão customizado para upload */
+.custom-file-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 15px 38px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #eee;
+  border-radius: 14px;
   cursor: pointer;
-  color: inherit;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(2px);
+  border: 2.5px dashed rgba(255, 255, 255, 0.4);
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  min-width: 260px;
+  user-select: none;
 }
-.btn-action:hover {
-  background-color: rgba(255, 255, 255, 0.35);
-  transform: translateY(-3px) scale(1.04);
-  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+.custom-file-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.06);
 }
 
-/* Botão de voltar */
+/* Botão de ação: Copiar texto */
+#btn-copy {
+  padding: 15px 38px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background-color: rgba(255, 255, 255, 0.25);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  color: #eee;
+  min-width: 260px;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+#btn-copy:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+#btn-copy:hover:enabled {
+  background-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.4);
+}
+
+/* Mensagem de loading */
+#loading {
+  margin-bottom: 20px;
+  font-style: italic;
+  color: #bbb;
+  min-height: 22px; /* espaço para não "pular" layout */
+}
+
+/* Área de texto para exibir o texto extraído */
+#text-output {
+  width: 100%;
+  min-height: 300px;
+  max-height: 450px;
+  padding: 20px 25px;
+  font-size: 1.1rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  border-radius: 16px;
+  border: none;
+  resize: vertical;
+  background: rgba(0, 0, 0, 0.55);
+  color: #eaeaea;
+  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.12);
+  line-height: 1.5;
+  overflow-y: auto;
+  user-select: text;
+}
+
+/* Botão voltar centralizado */
 .btn-voltar {
-  display: inline-block;
-  margin-top: 30px;
-  color: inherit;
+  display: block;
+  width: max-content;
+  margin: 35px auto 40px;
+  text-align: center;
+  color: #eee;
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
-  transition: 0.3s ease;
+  transition: color 0.3s ease;
+  padding: 8px 15px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+  user-select: none;
 }
 .btn-voltar:hover {
-  color: #ffffff;
-  text-decoration: underline;
-  letter-spacing: 0.5px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.3);
+  text-decoration: none;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.3);
 }
 
-/* Botão customizado para selecionar arquivos */
+/* Responsividade para telas pequenas */
+@media (max-width: 480px) {
+  .container {
+    padding: 25px 20px 35px;
+    margin: 20px 15px;
+  }
+  .custom-file-btn,
+  #btn-copy {
+    min-width: 100%;
+    font-size: 1rem;
+    padding: 14px 0;
+  }
+  #text-output {
+    min-height: 220px;
+  }
+  .btn-voltar {
+    max-width: 100px;
+    margin: 25px auto 30px;
+  }
+}
+/* Botão customizado para upload */
 .custom-file-btn {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 14px 30px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: inherit;
-  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 15px 38px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #eee;
+  border-radius: 14px;
   cursor: pointer;
-  transition: 0.3s ease;
+  border: 2.5px dashed rgba(255, 255, 255, 0.4);
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  min-width: 260px;
+  user-select: none;
   margin-bottom: 20px;
-  border: 2px dashed rgba(255, 255, 255, 0.3);
 }
 .custom-file-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.6);
-  transform: scale(1.03);
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.06);
 }
 
-/* Campo de nomeação do novo PDF */
+/* Botão de ação (juntar arquivos) */
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 38px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background-color: rgba(255, 255, 255, 0.25);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  color: #eee;
+  min-width: 260px;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+  margin-top: 10px;
+}
+.btn-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn-action:hover:enabled {
+  background-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.4);
+}
+
+/* Botão voltar */
+.btn-voltar {
+  display: inline-block;
+  width: max-content;
+  margin: 35px auto 40px;
+  text-align: center;
+  color: #eee;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+  padding: 8px 15px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+  user-select: none;
+  cursor: pointer;
+}
+.btn-voltar:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.3);
+  text-decoration: none;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.3);
+}
+
+/* Ícones dentro dos botões para espaçamento */
+.custom-file-btn i,
+.btn-action i,
+.btn-voltar i {
+  margin-right: 8px;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 480px) {
+  .custom-file-btn,
+  .btn-action,
+  .btn-voltar {
+    min-width: 100%;
+    font-size: 1rem;
+    padding: 14px 0;
+  }
+  .btn-voltar {
+    max-width: 100px;
+    margin: 25px auto 30px;
+  }
+}
+/* Input para o nome do arquivo */
 .input-nome {
   width: 100%;
-  margin-top: 25px;
-  padding: 14px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.18);
-  color: inherit;
+  max-width: 720px; /* opcional, para manter alinhado ao container */
+  padding: 14px 20px;
+  font-size: 1.05rem;
+  color: #eee;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 0 8px rgba(255, 255, 255, 0.15);
+  margin: 15px 0 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: text;
   outline: none;
-  text-align: center;
-  transition: background 0.3s ease;
+  display: block;
+  box-sizing: border-box;
 }
+
 .input-nome::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
 }
+
 .input-nome:focus {
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 0 12px rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+/* Lista de arquivos selecionados */
+.file-list {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.08);
+  max-height: 250px;
+  overflow-y: auto;
+  color: #eee;
+  font-size: 0.95rem;
+  text-align: left;
 }
 
-/* Responsividade */
-@media (max-width: 480px) {
-  .input-nome {
-    font-size: 0.95rem;
-    padding: 12px;
-  }
+/* Lista sem marcadores */
+.file-list ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
 
-  .btn-action {
-    padding: 12px 20px;
-    font-size: 1rem;
-  }
+/* Itens da lista */
+.file-list li {
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+}
 
-  .custom-file-btn {
-    padding: 12px 20px;
-    font-size: 0.95rem;
-  }
+/* Último item sem borda */
+.file-list li:last-child {
+  border-bottom: none;
+}
+
+/* Scrollbar customizada */
+.file-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.file-list::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+}
+.sortable-item {
+  cursor: move;
+  padding-left: 12px;
+  position: relative;
+}
+
+.sortable-ghost {
+  opacity: 0.4;
+  background-color: #666 !important;
 }
