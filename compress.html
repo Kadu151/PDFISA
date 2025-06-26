@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Comprimir PDF</title>
+  <link rel="stylesheet" href="/styles/index.css" />
+  <link rel="stylesheet" href="/styles/compress.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body class="theme-purple">
+
+  <button id="theme-switcher">Mudar Tema</button>
+
+ <div class="container">
+  <h1><i class="fas fa-compress"></i> Comprimir PDF</h1>
+
+  <div class="buttons-group">
+    <label for="pdf-input" class="custom-file-btn">
+      <i class="fas fa-upload"></i> Selecionar Arquivo PDF
+    </label>
+    <input type="file" id="pdf-input" accept="application/pdf" hidden />
+
+    <button id="btn-download" class="btn-action" disabled>
+      <i class="fas fa-download"></i> Baixar PDF Comprimido
+    </button>
+  </div>
+
+  <a href="/front/index.html" class="btn-voltar">
+    <i class="fas fa-arrow-left"></i> Voltar
+  </a>
+</div>
+
+
+
+  <!-- Bibliotecas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="/backend/index.js"></script>
+      <script src="/backend/compress.js"></script>
+
+
+
+</body>
+</html>
