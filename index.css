@@ -1,0 +1,196 @@
+/* Reset básico e corpo padrão */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  transition: background 0.6s ease;
+}
+
+/* Tema vibrante substituindo o antigo theme-purple */
+body.theme-purple {
+  background-image: linear-gradient(to right, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+  color: #fff;
+}
+
+/* Tema azul claro elegante (substituindo o antigo verde) */
+body.theme-green {
+  background-image: linear-gradient(to right top, #3b5998, #4a65a0, #5972a8, #687fb0, #778cb8, #8597bf, #92a3c7, #a0aece, #b0bbd6, #c0c8de, #cfd5e6, #dfe3ee);
+  color: #2d3a1a;
+}
+
+
+/* Tema vermelho intenso com preto */
+body.theme-gray {
+  background-image: linear-gradient(to right top, #ff0000, #e60002, #ce0003, #b50003, #9e0003, #8b000b, #78000f, #640210, #4d0714, #360b13, #21080e, #000000);
+  color: #ddd;
+}
+
+/* Container comum */
+.container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 40px 50px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-align: center;
+  transition: background 0.6s ease, color 0.6s ease;
+}
+
+/* Ajuste do container nos temas */
+body.theme-green .container {
+  background: rgba(255, 255, 255, 0.3);
+  color: #2d3a1a;
+}
+
+body.theme-gray .container {
+  background: rgba(50, 50, 50, 0.7);
+  color: #ddd;
+}
+
+/* Título principal */
+.container h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: color 0.6s ease;
+}
+
+/* Cards grid */
+.actions-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 25px;
+}
+
+/* Cards */
+.action-card {
+  border-radius: 20px;
+  padding: 30px 20px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    color 0.3s ease;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 110px;
+  outline: none;
+  position: relative;
+  color: inherit;
+}
+
+/* Cards em tema vibrante (ex-theme-purple) */
+body.theme-purple .action-card {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+body.theme-purple .action-card:hover,
+body.theme-purple .action-card:focus {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.6);
+  transform: translateY(-8px) scale(1.05);
+}
+
+/* Cards em tema verde */
+body.theme-green .action-card {
+  background: rgba(255, 255, 255, 0.3);
+  color: #2d3a1a;
+}
+body.theme-green .action-card:hover,
+body.theme-green .action-card:focus {
+  background: #a0aece;
+  box-shadow: 0 8px 25px rgba(160, 174, 206, 0.8);
+  transform: translateY(-8px) scale(1.05);
+}
+
+
+/* Cards em tema cinza */
+body.theme-gray .action-card {
+  background: rgba(0, 0, 0, 0.5);
+  color: #ddd;
+}
+body.theme-gray .action-card:hover,
+body.theme-gray .action-card:focus {
+  background: #360b13;
+  box-shadow: 0 8px 25px rgba(255, 0, 0, 0.3);
+  transform: translateY(-8px) scale(1.05);
+}
+
+
+/* Foco acessível */
+.action-card:focus-visible {
+  box-shadow: 0 0 0 4px #d6bbfb, 0 8px 25px rgba(255, 255, 255, 0.6);
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .container {
+    padding: 30px 20px;
+  }
+
+  .action-card {
+    padding: 25px 15px;
+    font-size: 1rem;
+    min-height: 90px;
+  }
+
+  .container h1 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+}
+
+/* Botão de troca de tema */
+#theme-switcher {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255,255,255,0.3);
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+  transition: background 0.3s ease, color 0.3s ease;
+  z-index: 1000;
+}
+
+#theme-switcher:hover {
+  background: rgba(255,255,255,0.6);
+}
+
+.action-card i {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  display: block;
+}
+.action-card span {
+  display: block;
+  font-size: 1.1rem;
+}
+.action-card {
+  text-decoration: none; /* Remove sublinhado */
+  color: inherit; /* Mantém a cor original do tema */
+}
