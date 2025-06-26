@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juntar PDFs - Editor PDF</title>
+  <link rel="stylesheet" href="/styles/index.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<style>
+  .merge-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .merge-container h1 {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    color: inherit;
+  }
+
+  .merge-container .custom-file-btn,
+  .merge-container .btn-action {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    font-size: 1.1rem;
+  }
+
+  .merge-container .input-nome {
+    margin-top: 25px;
+    padding: 14px;
+    font-size: 1rem;
+    border-radius: 10px;
+    width: 100%;
+    border: none;
+    background: rgba(255,255,255,0.2);
+    color: inherit;
+    text-align: center;
+  }
+
+  /* <<< ESTILO ADICIONADO AQUI >>> */
+  .merge-container .input-nome::placeholder {
+    color: #ffffff;
+    opacity: 1;
+  }
+
+  .merge-container .file-list {
+    max-height: 160px;
+    overflow-y: auto;
+    background: rgba(255,255,255,0.1);
+    padding: 12px;
+    border-radius: 10px;
+    text-align: left;
+    margin-top: 20px;
+  }
+
+  .merge-container .file-item {
+    background: rgba(255,255,255,0.2);
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  .merge-container .btn-voltar {
+    display: inline-block;
+    margin-top: 30px;
+    color: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .merge-container .btn-voltar:hover {
+    text-decoration: underline;
+    color: #fff;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  @media (max-width: 480px) {
+    .merge-container {
+      padding: 25px;
+    }
+  }
+  /* Botão de remover arquivo na lista */
+.file-item {
+  position: relative;
+  padding-right: 35px; /* Espaço para o botão */
+}
+
+.file-item .btn-remover {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.file-item .btn-remover:hover {
+  background: rgba(255, 255, 255, 0.6);
+  color: #000;
+}
+</style>
+
+</head>
+<body class="theme-purple">
+
+  <!-- Botão de troca de tema -->
+  <button id="theme-switcher" aria-label="Trocar tema">Mudar Tema</button>
+
+  <div class="container">
+    <div class="merge-container">
+      <h1><i class="fas fa-file-circle-plus"></i> Juntar PDFs</h1>
+
+      <form id="merge-form">
+        <!-- Selecionar arquivos -->
+        <label class="custom-file-btn" for="pdf-files">
+          <i class="fas fa-upload"></i> Selecionar Arquivos PDF
+        </label>
+        <input type="file" id="pdf-files" accept="application/pdf" multiple />
+
+        <!-- Lista dos arquivos -->
+        <div id="file-list" class="file-list"></div>
+
+        <!-- Nome do novo arquivo -->
+        <input
+          type="text"
+          id="nome-pdf"
+          class="input-nome"
+          placeholder="Nome do novo arquivo (ex: novo_arquivo.pdf)"
+        />
+
+        <!-- Botão juntar -->
+        <button type="submit" class="btn-action">
+          <i class="fas fa-layer-group"></i> Juntar Arquivos
+        </button>
+      </form>
+
+      <!-- Voltar -->
+      <a href="/front/index.html" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar</a>
+    </div>
+  </div>
+
+  <script src="/backend/index.js"></script>
+  <script src="/backend/merge.js"></script>
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+</body>
+</html>
