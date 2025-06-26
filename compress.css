@@ -1,120 +1,276 @@
-    /* Container principal */
-    .container {
-      background: rgba(255, 255, 255, 0.1);
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 40px 30px;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      color: inherit;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+/* Container principal */
+.container {
+  background: rgba(255, 255, 255, 0.12);
+  max-width: 720px;
+  margin: 40px auto 20px;
+  padding: 40px 35px 50px;
+  border-radius: 20px;
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    inset 0 0 40px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  color: #eee;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: text;
+}
 
-    /* Título */
-    .container h1 {
-      font-size: 2.2rem;
-      margin-bottom: 30px;
-      color: inherit;
-    }
+/* Título */
+.container h1 {
+  font-size: 2.4rem;
+  margin-bottom: 35px;
+  color: #f0f0f0;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
 
-    /* Grupo dos botões lado a lado e centralizados */
-    .buttons-group {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
+/* Grupo de botões - coluna centralizada */
+.buttons-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 30px;
+}
 
-    /* Botões customizados com largura mínima igual */
-    .custom-file-btn,
-    .btn-action {
-      flex: 1 1 220px; /* cresce e encolhe, largura base 220px */
-      max-width: 280px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      white-space: nowrap;
-      padding: 14px 28px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      border-radius: 12px;
-      cursor: pointer;
-      border: 2px dashed rgba(255, 255, 255, 0.3);
-      background-color: rgba(255, 255, 255, 0.15);
-      color: inherit;
-      transition: 0.3s ease;
-    }
+/* Botão customizado para upload */
+.custom-file-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 15px 38px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #eee;
+  border-radius: 14px;
+  cursor: pointer;
+  border: 2.5px dashed rgba(255, 255, 255, 0.4);
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  min-width: 260px;
+  user-select: none;
+}
+.custom-file-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.06);
+}
 
-    .custom-file-btn:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-      border-color: rgba(255, 255, 255, 0.6);
-      transform: scale(1.03);
-    }
+/* Botão de ação: Copiar texto */
+#btn-copy {
+  padding: 15px 38px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background-color: rgba(255, 255, 255, 0.25);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  color: #eee;
+  min-width: 260px;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+#btn-copy:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+#btn-copy:hover:enabled {
+  background-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.4);
+}
 
-    .btn-action {
-      border: none;
-      background-color: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(2px);
-    }
+/* Mensagem de loading */
+#loading {
+  margin-bottom: 20px;
+  font-style: italic;
+  color: #bbb;
+  min-height: 22px; /* espaço para não "pular" layout */
+}
 
-    .btn-action:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+/* Área de texto para exibir o texto extraído */
+#text-output {
+  width: 100%;
+  min-height: 300px;
+  max-height: 450px;
+  padding: 20px 25px;
+  font-size: 1.1rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  border-radius: 16px;
+  border: none;
+  resize: vertical;
+  background: rgba(0, 0, 0, 0.55);
+  color: #eaeaea;
+  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.12);
+  line-height: 1.5;
+  overflow-y: auto;
+  user-select: text;
+}
 
-    .btn-action:hover:enabled {
-      background-color: rgba(255, 255, 255, 0.35);
-      transform: translateY(-3px) scale(1.04);
-      box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
-    }
-
-    /* Input file escondido */
-    input[type="file"] {
-      display: none;
-    }
-
-    /* Botão voltar centralizado */
+/* Botão voltar centralizado */
 .btn-voltar {
-  display: block;           /* força bloco para aceitar margin auto */
-  width: fit-content;       /* largura do conteúdo (suporta na maioria dos navegadores modernos) */
-  margin: 30px auto 0 auto; /* margem superior e centralização horizontal */
-  padding: 12px 20px;
-  color: inherit;
+  display: block;
+  width: max-content;
+  margin: 35px auto 40px;
+  text-align: center;
+  color: #eee;
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
-  text-align: center;
+  transition: color 0.3s ease;
+  padding: 8px 15px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.15);
-  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
   user-select: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: 0.3s ease;
-  max-width: 100%;          /* evita estourar em telas pequenas */
+}
+.btn-voltar:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.3);
+  text-decoration: none;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.3);
 }
 
+/* Responsividade para telas pequenas */
+@media (max-width: 480px) {
+  .container {
+    padding: 25px 20px 35px;
+    margin: 20px 15px;
+  }
+  .custom-file-btn,
+  #btn-copy {
+    min-width: 100%;
+    font-size: 1rem;
+    padding: 14px 0;
+  }
+  #text-output {
+    min-height: 220px;
+  }
+  .btn-voltar {
+    max-width: 100px;
+    margin: 25px auto 30px;
+  }
+}
+/* Botão de download */
+#btn-download {
+  padding: 15px 38px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background-color: rgba(255, 255, 255, 0.25);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  color: #eee;
+  min-width: 260px;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+#btn-download:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+#btn-download:hover:enabled {
+  background-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.4);
+}
+.container {
+  background: rgba(255, 255, 255, 0.06);
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    inset 0 0 40px rgba(255, 255, 255, 0.05);
+  color: #eee;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+.container h1 {
+  font-size: 2.2rem;
+  margin-bottom: 35px;
+  color: #f0f0f0;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+}
 
-    .btn-voltar:hover {
-      color: #fff;
-      text-decoration: underline;
-      background: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-    }
+.buttons-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 35px;
+}
 
-    /* Responsividade */
-    @media (max-width: 480px) {
-      .buttons-group {
-        flex-direction: column;
-      }
-      .custom-file-btn,
-      .btn-action {
-        max-width: 100%;
-        flex: none;
-        padding: 14px;
-        font-size: 1rem;
-      }
-    }
+.custom-file-btn {
+  background: rgba(255, 255, 255, 0.18);
+  padding: 15px 38px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #eee;
+  border-radius: 14px;
+  cursor: pointer;
+  border: 2.5px dashed rgba(255, 255, 255, 0.4);
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  user-select: none;
+}
+.custom-file-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.05);
+}
+
+.btn-action {
+  padding: 15px 38px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background-color: rgba(255, 255, 255, 0.25);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  color: #eee;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-action:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.btn-action:hover:enabled {
+  background-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.4);
+}
+
+.btn-voltar {
+  display: inline-block;
+  margin-top: 40px;
+  padding: 10px 20px;
+  color: #eee;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-voltar:hover {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.3);
+}
+
+/* Ícones dentro dos botões */
+.custom-file-btn i,
+.btn-action i,
+.btn-voltar i {
+  margin-right: 8px;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .container {
+    padding: 25px 20px;
+  }
+  .custom-file-btn,
+  .btn-action {
+    width: 100%;
+    font-size: 1rem;
+    padding: 14px 0;
+  }
+}
+
