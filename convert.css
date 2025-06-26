@@ -106,8 +106,8 @@
 
 /* Botão voltar centralizado */
 .btn-voltar {
-  display: block;       /* Para usar margin auto */
-  width: max-content;   /* Ajusta a largura ao conteúdo */
+  display: block;
+  width: max-content;
   margin: 35px auto 40px;
   text-align: center;
   color: #eee;
@@ -128,27 +128,6 @@
   box-shadow: 0 0 14px rgba(255, 255, 255, 0.3);
 }
 
-
-/* Botão de troca de tema */
-#theme-switcher {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  background: rgba(255,255,255,0.15);
-  border: none;
-  border-radius: 12px;
-  padding: 8px 15px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #eee;
-  transition: background 0.3s ease;
-  backdrop-filter: blur(3px);
-  z-index: 1000;
-}
-#theme-switcher:hover {
-  background: rgba(255,255,255,0.35);
-}
-
 /* Responsividade para telas pequenas */
 @media (max-width: 480px) {
   .container {
@@ -163,10 +142,6 @@
   }
   #text-output {
     min-height: 220px;
-  }
-  #theme-switcher {
-    padding: 6px 12px;
-    font-size: 0.9rem;
   }
   .btn-voltar {
     max-width: 100px;
