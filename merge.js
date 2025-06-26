@@ -1,119 +1,86 @@
-const input = document.getElementById('pdf-files');
-const fileListDiv = document.getElementById('file-list');
-let arquivosSelecionados = []; // Guarda arquivos na ordem atual
+document.addEventListener("DOMContentLoaded", () => {
+  const inputFiles = document.getElementById("pdf-files");
+  const fileListDiv = document.getElementById("file-list");
+  const mergeForm = document.getElementById("merge-form");
+  const nomeInput = document.getElementById("nome-pdf");
 
-// Inicializa Sortable apenas uma vez
-let sortableInstance = Sortable.create(fileListDiv, {
-  animation: 150,
-  onEnd: (evt) => {
-    const item = arquivosSelecionados.splice(evt.oldIndex, 1)[0];
-    arquivosSelecionados.splice(evt.newIndex, 0, item);
-    atualizarListaArquivos(false); // Atualiza sem recriar Sortable
-  },
-});
+  let selectedFiles = [];
 
-input.addEventListener('change', () => {
-  const novosArquivos = Array.from(input.files);
+  inputFiles.addEventListener("change", (event) => {
+    selectedFiles = Array.from(event.target.files);
+    mostrarListaArquivos();
+  });
 
-  novosArquivos.forEach((novoArquivo) => {
-    const existe = arquivosSelecionados.some(
-      (arquivo) =>
-        arquivo.name === novoArquivo.name &&
-        arquivo.size === novoArquivo.size &&
-        arquivo.lastModified === novoArquivo.lastModified
-    );
-    if (!existe) {
-      arquivosSelecionados.push(novoArquivo);
+  function mostrarListaArquivos() {
+    fileListDiv.innerHTML = "";
+
+    if (selectedFiles.length === 0) {
+      fileListDiv.innerHTML = "<p>Nenhum arquivo selecionado.</p>";
+      return;
     }
-  });
 
-  atualizarListaArquivos();
+    const ul = document.createElement("ul");
+    ul.id = "sortable-list";
 
-  // Resetar input para permitir reenvio dos mesmos arquivos
-  input.value = '';
-});
-
-function atualizarListaArquivos(recriarSortable = true) {
-  fileListDiv.innerHTML = '';
-
-  arquivosSelecionados.forEach((file, index) => {
-    const div = document.createElement('div');
-    div.className = 'file-item';
-    div.dataset.index = index;
-
-    const nomeSpan = document.createElement('span');
-    nomeSpan.textContent = file.name;
-    div.appendChild(nomeSpan);
-
-    const btnRemover = document.createElement('button');
-    btnRemover.textContent = '×';
-    btnRemover.className = 'btn-remover';
-    btnRemover.title = 'Remover arquivo';
-    btnRemover.addEventListener('click', () => {
-      arquivosSelecionados.splice(index, 1);
-      atualizarListaArquivos();
+    selectedFiles.forEach((file, index) => {
+      const li = document.createElement("li");
+      li.textContent = `${file.name}`;
+      li.setAttribute("data-index", index);
+      li.classList.add("sortable-item");
+      ul.appendChild(li);
     });
-    div.appendChild(btnRemover);
 
-    fileListDiv.appendChild(div);
-  });
+    fileListDiv.appendChild(ul);
 
-  // Recria Sortable apenas se solicitado (default true)
-  if (recriarSortable) {
-    sortableInstance.destroy();
-    sortableInstance = Sortable.create(fileListDiv, {
+    // Inicializa o Sortable.js
+    Sortable.create(ul, {
       animation: 150,
-      onEnd: (evt) => {
-        const item = arquivosSelecionados.splice(evt.oldIndex, 1)[0];
-        arquivosSelecionados.splice(evt.newIndex, 0, item);
-        atualizarListaArquivos(false);
-      },
+      ghostClass: "sortable-ghost",
     });
   }
-}
 
-document.getElementById('merge-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
+  mergeForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const nomePdfInput = document.getElementById('nome-pdf');
-  let novoNome = nomePdfInput.value.trim();
-
-  if (arquivosSelecionados.length === 0) {
-    alert('Selecione ao menos um arquivo PDF para juntar.');
-    return;
-  }
-
-  if (!novoNome) {
-    novoNome = 'arquivo_juntado.pdf';
-  } else if (!novoNome.toLowerCase().endsWith('.pdf')) {
-    novoNome += '.pdf';
-  }
-
-  try {
-    const { PDFDocument } = PDFLib;
-    const novoPdf = await PDFDocument.create();
-
-    for (const file of arquivosSelecionados) {
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await PDFDocument.load(arrayBuffer);
-      const paginas = await novoPdf.copyPages(pdf, pdf.getPageIndices());
-      paginas.forEach((pagina) => novoPdf.addPage(pagina));
+    if (selectedFiles.length < 2) {
+      alert("Selecione pelo menos dois arquivos PDF.");
+      return;
     }
 
-    const pdfBytes = await novoPdf.save();
+    const nomeArquivo = nomeInput.value.trim() || "novo_arquivo.pdf";
 
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = novoNome;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
+    try {
+      const mergedPdf = await PDFLib.PDFDocument.create();
 
-  } catch (error) {
-    alert('Erro ao juntar PDFs: ' + error.message);
-    console.error(error);
+      // Captura a nova ordem dos arquivos com base no DOM
+      const sortedList = document.querySelectorAll("#sortable-list li");
+      const sortedFiles = Array.from(sortedList).map((li) => {
+        const index = parseInt(li.getAttribute("data-index"));
+        return selectedFiles[index];
+      });
+
+      for (const file of sortedFiles) {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+        const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+        copiedPages.forEach((page) => mergedPdf.addPage(page));
+      }
+
+      const pdfBytes = await mergedPdf.save();
+      baixarPDF(pdfBytes, nomeArquivo);
+
+    } catch (error) {
+      console.error("Erro ao juntar os PDFs:", error);
+      alert("Ocorreu um erro ao juntar os arquivos.");
+    }
+  });
+
+  function baixarPDF(pdfBytes, nomeArquivo) {
+    const blob = new Blob([pdfBytes], { type: "application/pdf" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = nomeArquivo;
+    link.click();
+    URL.revokeObjectURL(link.href);
   }
 });
